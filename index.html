@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Coverage Area Grand Mitra Bangunan PIK2</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f8f9fa;
+            color: #333;
+            line-height: 1.6;
+            padding: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: linear-gradient(to right, #004a8f, #0077cc);
+            color: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+        
+        .header p {
+            font-size: 1.1rem;
+            max-width: 800px;
+            margin: 0 auto;
+            opacity: 0.9;
+        }
+        
+        .container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+        
+        .main-content {
+            flex: 3;
+            min-width: 300px;
+        }
+        
+        .side-panel {
+            flex: 1;
+            min-width: 250px;
+            background-color: white;
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+        }
+        
+        .card {
+            background-color: white;
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            transition: transform 0.3s ease;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .card h2 {
+            color: #004a8f;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #eef5ff;
+        }
+        
+        .card h3 {
+            color: #0077cc;
+            margin: 15px 0 10px 0;
+        }
+        
+        .map-container {
+            height: 350px;
+            background-color: #eef5ff;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .map-area {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+        
+        .pik2-area {
+            width: 200px;
+            height: 200px;
+            background-color: rgba(0, 119, 204, 0.15);
+            border: 3px solid #0077cc;
+            border-radius: 50%;
+            position: absolute;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2;
+        }
+        
+        .pik2-area::after {
+            content: "PIK 2";
+            position: absolute;
+            bottom: -25px;
+            font-weight: bold;
+            color: #0077cc;
+        }
+        
+        .pik3-area {
+            width: 260px;
+            height: 260px;
+            background-color: rgba(0, 74, 143, 0.1);
+            border: 2px dashed #004a8f;
+            border-radius: 50%;
+            position: absolute;
+            z-index: 1;
+        }
+        
+        .pik3-area::after {
+            content: "PIK 3";
+            position: absolute;
+            bottom: -25px;
+            right: 30px;
+            font-weight: bold;
+            color: #004a8f;
+        }
+        
+        .future-area {
+            width: 320px;
+            height: 320px;
+            background-color: rgba(128, 128, 128, 0.05);
+            border: 1px dashed #666;
+            border-radius: 50%;
+            position: absolute;
+            z-index: 0;
+        }
+        
+        .future-area::after {
+            content: "Area Pengembangan";
+            position: absolute;
+            bottom: -25px;
+            left: 30px;
+            font-weight: bold;
+            color: #666;
+        }
+        
+        .location-marker {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background-color: #ff6b35;
+            border-radius: 50%;
+            z-index: 5;
+        }
+        
+        .location-marker:hover::after {
+            content: attr(data-name);
+            position: absolute;
+            top: -35px;
+            left: -20px;
+            background-color: rgba(0,0,0,0.8);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            white-space: nowrap;
+            z-index: 10;
+        }
+        
+        .store-location {
+            position: absolute;
+            width: 18px;
+            height: 18px;
+            background-color: #ff0000;
+            border-radius: 50%;
+            border: 3px solid white;
+            box-shadow: 0 0 5px rgba(0,0,0,0.5);
+            z-index: 10;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+        
+        .store-location::after {
+            content: "Grand Mitra Bangunan";
+            position: absolute;
+            top: -40px;
+            left: -60px;
+            background-color: rgba(0,0,0,0.8);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-size: 0.9rem;
+            white-space: nowrap;
+            font-weight: bold;
+        }
+        
+        .locations-list {
+            list-style-type: none;
+            margin-top: 15px;
+        }
+        
+        .locations-list li {
+            padding: 10px 0;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            align-items: center;
+        }
+        
+        .locations-list li:last-child {
+            border-bottom: none;
+        }
+        
+        .locations-list i {
+            color: #0077cc;
+            margin-right: 10px;
+            width: 20px;
+        }
+        
+        .progress-container {
+            margin: 20px 0;
+        }
+        
+        .progress-label {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 5px;
+        }
+        
+        .progress-bar {
+            height: 10px;
+            background-color: #e0e0e0;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background-color: #0077cc;
+            border-radius: 5px;
+        }
+        
+        .customer-profile {
+            display: flex;
+            align-items: center;
+            margin: 15px 0;
+            padding: 15px;
+            background-color: #f0f8ff;
+            border-radius: 8px;
+        }
+        
+        .customer-icon {
+            font-size: 2rem;
+            color: #004a8f;
+            margin-right: 15px;
+        }
+        
+        .customer-details h4 {
+            color: #004a8f;
+            margin-bottom: 5px;
+        }
+        
+        .strategy-list {
+            list-style-type: none;
+            margin-top: 15px;
+        }
+        
+        .strategy-list li {
+            padding: 8px 0;
+            padding-left: 25px;
+            position: relative;
+        }
+        
+        .strategy-list li::before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #28a745;
+            font-weight: bold;
+        }
+        
+        .footer {
+            text-align: center;
+            margin-top: 30px;
+            padding: 20px;
+            color: #666;
+            border-top: 1px solid #ddd;
+            font-size: 0.9rem;
+        }
+        
+        .highlight {
+            color: #004a8f;
+            font-weight: bold;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .map-container {
+                height: 300px;
+            }
+            
+            .pik2-area, .pik3-area, .future-area {
+                transform: scale(0.8);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1><i class="fas fa-map-marked-alt"></i> Coverage Area Penjualan</h1>
+        <p>Grand Mitra Bangunan PIK2 - Ekspansi ke PIK3 dan Sekitarnya</p>
+        <p>Sasaran Customer: Middle - Upper Class</p>
+    </div>
+    
+    <div class="container">
+        <div class="main-content">
+            <div class="card">
+                <h2><i class="fas fa-map"></i> Peta Area Cakupan Penjualan</h2>
+                <p>Visualisasi area cakupan penjualan toko Grand Mitra Bangunan PIK2 dengan rencana ekspansi ke PIK3 dan wilayah pengembangan lainnya.</p>
+                
+                <div class="map-container">
+                    <div class="map-area">
+                        <div class="future-area"></div>
+                        <div class="pik3-area"></div>
+                        <div class="pik2-area"></div>
+                        <div class="store-location"></div>
+                        
+                        <!-- Markers for key locations -->
+                        <div class="location-marker" style="top: 30%; left: 60%;" data-name="TOKYO HUB SHOPPING TOWN"></div>
+                        <div class="location-marker" style="top: 40%; left: 40%;" data-name="La Riviera PIK 2"></div>
+                        <div class="location-marker" style="top: 50%; left: 30%;" data-name="Patung Naga"></div>
+                        <div class="location-marker" style="top: 35%; left: 20%;" data-name="IDD - Indonesia Design District"></div>
+                        <div class="location-marker" style="top: 65%; left: 50%;" data-name="Bandara City Mall"></div>
+                        <div class="location-marker" style="top: 70%; left: 35%;" data-name="Cove at Batavia PIK"></div>
+                    </div>
+                </div>
+                
+                <div class="progress-container">
+                    <div class="progress-label">
+                        <span>Area Tercover Saat Ini (PIK2)</span>
+                        <span>75%</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 75%"></div>
+                    </div>
+                </div>
+                
+                <div class="progress-container">
+                    <div class="progress-label">
+                        <span>Ekspansi ke PIK3 (2024-2025)</span>
+                        <span>40%</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 40%"></div>
+                    </div>
+                </div>
+                
+                <div class="progress-container">
+                    <div class="progress-label">
+                        <span>Pengembangan Area Lainnya</span>
+                        <span>15%</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 15%"></div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="card">
+                <h2><i class="fas fa-bullseye"></i> Strategi Ekspansi & Pengembangan</h2>
+                
+                <h3>Fase 1: Konsolidasi PIK2 (Saat Ini)</h3>
+                <ul class="strategy-list">
+                    <li>Optimalisasi penjualan di area PIK2 dengan fokus pada proyek-proyek residensial dan komersial</li>
+                    <li>Membangun hubungan dengan developer dan kontraktor di area PIK2</li>
+                    <li>Meningkatkan brand awareness di kalangan masyarakat PIK2</li>
+                </ul>
+                
+                <h3>Fase 2: Ekspansi ke PIK3 (2024-2025)</h3>
+                <ul class="strategy-list">
+                    <li>Studi pasar untuk kebutuhan material bangunan di PIK3</li>
+                    <li>Pembangunan jaringan distribusi ke proyek-proyek baru di PIK3</li>
+                    <li>Promosi khusus untuk customer early-bird di PIK3</li>
+                </ul>
+                
+                <h3>Fase 3: Pengembangan Area Sekitar (2025+)</h3>
+                <ul class="strategy-list">
+                    <li>Ekspansi ke wilayah sekitar PIK seperti Kelapa Gading, Pluit, dan Sunter</li>
+                    <li>Pengembangan layanan online dengan pengiriman ke area yang lebih luas</li>
+                    <li>Kolaborasi dengan developer besar untuk proyek skala kota</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="side-panel">
+            <div class="card">
+                <h2><i class="fas fa-store"></i> Toko Utama</h2>
+                <p><strong>Grand Mitra Bangunan PIK2</strong></p>
+                <p>Lokasi strategis di jantung PIK2, melayani kebutuhan material bangunan untuk proyek residensial dan komersial.</p>
+                
+                <h3><i class="fas fa-users"></i> Profil Customer</h3>
+                <div class="customer-profile">
+                    <div class="customer-icon">
+                        <i class="fas fa-user-tie"></i>
+                    </div>
+                    <div class="customer-details">
+                        <h4>Middle - Upper Class</h4>
+                        <p>Developer, Kontraktor, Pemilik Rumah, Investor Properti</p>
+                    </div>
+                </div>
+                
+                <h3><i class="fas fa-map-marker-alt"></i> Lokasi Penting di Cakupan</h3>
+                <ul class="locations-list">
+                    <li><i class="fas fa-shopping-cart"></i> TOKYO HUB SHOPPING TOWN</li>
+                    <li><i class="fas fa-umbrella-beach"></i> La Riviera PIK 2</li>
+                    <li><i class="fas fa-landmark"></i> Patung Naga</li>
+                    <li><i class="fas fa-palette"></i> IDD - Indonesia Design District</li>
+                    <li><i class="fas fa-store"></i> AISMA Store PIK 2</li>
+                    <li><i class="fas fa-spa"></i> Gaya Spa Wellness PIK 2</li>
+                    <li><i class="fas fa-water"></i> Aloha Pasir Putih</li>
+                    <li><i class="fas fa-child"></i> Happy Panda Playground</li>
+                    <li><i class="fas fa-mountain"></i> Land's End PIK 2</li>
+                    <li><i class="fas fa-plane-departure"></i> Bandara City Mall</li>
+                    <li><i class="fas fa-anchor"></i> Cove at Batavia PIK</li>
+                </ul>
+                
+                <h3><i class="fas fa-chart-line"></i> Potensi Pasar</h3>
+                <p>Area PIK2 dan sekitarnya memiliki pertumbuhan properti <span class="highlight">12% per tahun</span> dengan rata-rata nilai proyek <span class="highlight">Rp 2-10 Miliar</span>.</p>
+                <p>PIK3 diproyeksikan akan tumbuh <span class="highlight">20% lebih cepat</span> daripada PIK2 dalam 5 tahun ke depan.</p>
+            </div>
+        </div>
+    </div>
+    
+    <div class="footer">
+        <p>Grand Mitra Bangunan PIK2 &copy; 2023 - Infografis Coverage Area Penjualan</p>
+        <p>Data berdasarkan analisis pasar dan perkembangan properti di kawasan PIK</p>
+    </div>
+
+    <script>
+        // Add interactivity to location markers
+        document.querySelectorAll('.location-marker').forEach(marker => {
+            marker.addEventListener('mouseenter', function() {
+                this.style.transform = 'scale(1.5)';
+                this.style.zIndex = '15';
+            });
+            
+            marker.addEventListener('mouseleave', function() {
+                this.style.transform = 'scale(1)';
+                this.style.zIndex = '5';
+            });
+        });
+        
+        // Animate progress bars on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            const progressBars = document.querySelectorAll('.progress-fill');
+            progressBars.forEach(bar => {
+                const width = bar.style.width;
+                bar.style.width = '0%';
+                
+                setTimeout(() => {
+                    bar.style.transition = 'width 1.5s ease-in-out';
+                    bar.style.width = width;
+                }, 300);
+            });
+        });
+    </script>
+</body>
+</html>
